@@ -1,0 +1,18 @@
+import requests
+import os
+
+def post_to_twitter(bearer_token, message):
+    url = "https://api.twitter.com/2/tweets"
+    headers = {"Authorization": f"Bearer {bearer_token}", "Content-Type": "application/json"}
+    data = {"text": message}
+    response = requests.post(url, headers=headers, json=data)
+    return response.json()
+
+def send_mailchimp_email(api_key, audience_id, subject, content):
+    # For a real deployment, use the official Mailchimp API client.
+    pass  # Placeholder
+
+if __name__ == "__main__":
+    tweet = "Check out our new AI-generated e-book! [Link]"
+    bearer_token = os.getenv("TWITTER_BEARER_TOKEN")
+    print(post_to_twitter(bearer_token, tweet))
