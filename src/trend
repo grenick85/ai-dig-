@@ -1,0 +1,31 @@
+import requests
+import os
+
+def fetch_twitter_trends(bearer_token, location_woeid=1):
+    """Fetch trending topics from Twitter (X) for a location (1 = global)."""
+    url = f'https://api.twitter.com/1.1/trends/place.json?id={location_woeid}'
+    headers = {'Authorization': f'Bearer {bearer_token}'}
+    response = requests.get(url, headers=headers)
+    if response.ok:
+        trends = response.json()[0]['trends']
+        return [trend['name'] for trend in trends]
+    return []
+
+def fetch_reddit_trends(subreddit='all', limit=10):
+    """Fetch top trending posts from a subreddit."""
+    url = f'https://www.reddit.com/r/{subreddit}/hot.json?limit={limit}'
+    headers = {'User-Agent': 'DigitalProductBot/0.1'}
+    response = requests.get(url, headers=headers)
+    if response.ok:
+        posts = response.json()['data']['children']
+        return [post['data']['title'] for post in posts]
+    return []
+
+def get_trending_topics():
+    twitter_token = os.getenv('TWITTER_BEARER_TOKEN')
+    twitter_trends = fetch_twitter_trends(twitter_token) if twitter_token else []
+    reddit_trends = fetch_reddit_trends('niche_subreddit', 10)
+    return twitter_trends, reddit_trends
+
+if __name__ == "__main__":
+    print(get_trending_topics())
