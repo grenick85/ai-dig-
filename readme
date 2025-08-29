@@ -1,0 +1,46 @@
+# Automated AI Digital Content Creator
+
+This project automates the creation, packaging, and sale of digital products based on trending topics, using AI and social media trends.
+
+## Features
+
+- Weekly detection of trending topics (Twitter, Reddit)
+- AI-powered e-book/template/content generation
+- Automated uploading to Gumroad (or other platforms)
+- Automated marketing (social media, email)
+- Modular & extensible for new platforms or content types
+
+## Architecture
+
+```mermaid
+graph TD;
+    A[Trend Detection] --> B[AI Content Generation]
+    B --> C[Design Generation (Visuals)]
+    C --> D[Product Packaging & Upload]
+    D --> E[Automated Marketing]
+    E --> F[Sales & Feedback Collection]
+    F --> A
+```
+
+## Getting Started
+
+1. Clone the repo  
+2. Copy `.env.example` to `.env` and fill in your API keys  
+3. Install dependencies:  
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run the workflow:  
+   ```bash
+   python src/main.py
+   ```
+
+## Customization
+
+- Add more trend sources (TikTok, Google Trends, etc.)
+- Add more sales platforms (Etsy, Shopify, etc.)
+- Expand AI content types (templates, courses, etc.)
+
+## License
+
+MIT
