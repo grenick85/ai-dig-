@@ -1,0 +1,35 @@
+import openai
+import os
+
+def generate_outline(topic):
+    prompt = f"Create a 10-chapter outline for an e-book about '{topic}'."
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are a creative outline generator."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=600,
+    )
+    return response['choices'][0]['message']['content']
+
+def generate_ebook(topic, outline):
+    prompt = f"Write a comprehensive, engaging e-book about '{topic}'. Outline: {outline}"
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are a digital product creator."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=3000,
+    )
+    return response['choices'][0]['message']['content']
+
+if __name__ == "__main__":
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    topic = "How to Start a Side Hustle with AI"
+    outline = generate_outline(topic)
+    ebook = generate_ebook(topic, outline)
+    os.makedirs("output", exist_ok=True)
+    with open("output/ebook.txt", "w") as f:
+        f.write(ebook)
