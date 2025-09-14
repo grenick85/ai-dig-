@@ -1,0 +1,23 @@
+import requests
+import os
+
+def upload_product_to_gumroad(api_key, product_title, description, price, file_path):
+    url = "https://api.gumroad.com/v2/products"
+    headers = {"Authorization": f"Bearer {api_key}"}
+    data = {
+        "name": product_title,
+        "description": description,
+        "price": price,
+        "published": True
+    }
+    files = {"file": open(file_path, "rb")}
+    response = requests.post(url, headers=headers, data=data, files=files)
+    return response.json()
+
+if __name__ == "__main__":
+    api_key = os.getenv("GUMROAD_API_KEY")
+    product_title = "AI E-Book Example"
+    description = "A sample e-book created by AI."
+    price = 500  # price in cents
+    file_path = "output/ebook.txt"
+    print(upload_product_to_gumroad(api_key, product_title, description, price, file_path))
